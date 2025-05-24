@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开发文档</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            width: 85%;
+            margin: auto;
+            overflow: hidden;
+            padding: 25px;
+            background: #fff;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            border-radius: 5px;
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        h1 {
+            font-size: 2.2em;
+            margin-bottom: 0.8em;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.3em;
+        }
+        h2 {
+            font-size: 1.8em;
+            margin-top: 1.5em;
+            margin-bottom: 0.8em;
+            padding-bottom: 0.3em;
+            border-bottom: 1px solid #eee;
+        }
+        h3 {
+            font-size: 1.5em;
+            margin-top: 1.2em;
+            color: #3498db;
+        }
+        h4 {
+            font-size: 1.2em;
+            margin-top: 1em;
+            color: #2980b9;
+        }
+        nav {
+            background-color: #fff;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+        nav ul {
+            padding: 0;
+            list-style: none;
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+        nav ul li {
+            margin-right: 25px;
+            margin-bottom: 5px;
+        }
+        nav a {
+            text-decoration: none;
+            color: #3498db;
+            font-weight: 500;
+            padding: 5px 0;
+            transition: color 0.3s;
+        }
+        nav a:hover {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+        }
+        section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', monospace;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        table th, table td {
+            border: 1px solid #e9ecef;
+            padding: 10px;
+            text-align: left;
+        }
+        table th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+        }
+        table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        ul, ol {
+            padding-left: 25px;
+        }
+        ul li, ol li {
+            margin-bottom: 8px;
+        }
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #2c3e50;
+            color: #fff;
+            margin-top: 30px;
+            border-radius: 0 0 5px 5px;
+        }
+        .api-endpoint {
+            background-color: #e9f7fe;
+            border-left: 4px solid #3498db;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        .required {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .optional {
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>项目开发文档</h1>
+            <nav>
+                <ul>
+                    <li><a href="#introduction">简介</a></li>
+                    <li><a href="#installation">安装说明</a></li>
+                    <li><a href="#api-documentation">API 文档</a></li>
+                    <li><a href="#settlement-api">结算 API</a></li>
+                    <li><a href="#sdk-usage">SDK 使用说明</a></li>
+                <li><a href="#contribution-guidelines">贡献指南</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <section id="introduction">
+            <h2>简介</h2>
+            <p>欢迎来到本项目的开发文档。本文档旨在为开发者提供必要的指导和信息，以便更好地理解、使用和贡献本项目。</p>
+        </section>
+
+        <section id="installation">
+            <h2>安装说明</h2>
+            <p>请在此处详细描述项目的安装步骤和依赖项。</p>
+            <pre>
+# 示例安装命令
+# git clone [repository_url]
+# cd [project_directory]
+# composer install
+# npm install
+            </pre>
+        </section>
+
+        <section id="api-documentation">
+            <h2>API 文档</h2>
+            <p>本项目的 API 端点、请求/响应格式以及认证机制等详细信息。所有API请求均需要进行签名验证，确保数据传输安全。</p>
+            
+            <div class="api-endpoint">
+                <p>API 基础URL: <code>https://api.example.com</code></p>
+                <p>所有请求都需要包含以下公共参数：</p>
+                <ul>
+                    <li><strong class="required">merchant_id</strong> - 商户ID</li>
+                    <li><strong class="required">timestamp</strong> - 请求时间戳（10位）</li>
+                    <li><strong class="required">sign</strong> - 请求签名</li>
+                    <li><strong class="optional">version</strong> - API版本号，默认为v1</li>
+                </ul>
+            </div>
+            
+            <h3>签名算法</h3>
+            <p>所有API请求都需要进行签名验证，签名算法如下：</p>
+            <pre>
+1. 将所有请求参数按参数名ASCII码从小到大排序
+2. 使用URL键值对的格式拼接成字符串stringA
+3. 在stringA最后拼接上key=商户密钥
+4. 对stringA进行MD5运算，得到sign值
+            </pre>
+            
+            <h3>安全要求</h3>
+            <ul>
+                <li>所有API请求必须通过HTTPS协议传输</li>
+                <li>敏感数据必须加密传输</li>
+                <li>每个请求必须包含时间戳参数，服务器会验证请求时间有效性</li>
+                <li>每个商户必须妥善保管自己的API密钥</li>
+            </ul>
+            
+            <h3>用户管理接口</h3>
+            <h4>获取用户列表</h4>
+            <p><strong>GET /api/users</strong></p>
+            <p><strong>请求参数</strong>:</p>
+            <pre>{
+    "page": 1, // 页码
+    "limit": 10 // 每页数量
+}</pre>
+            <p><strong>响应示例</strong>:</p>
+            <pre>{
+    "code": 200,
+    "data": {
+        "list": [
+            {"id": 1, "name": "张三"},
+            {"id": 2, "name": "李四"}
+        ],
+        "total": 2
+    }
+}</pre>
+            
+            <h4>创建新用户</h4>
+            <p><strong>POST /api/users</strong></p>
+            <p><strong>请求参数</strong>:</p>
+            <pre>{
+    "name": "王五", // 用户名
+    "email": "wangwu@example.com" // 用户邮箱
+}</pre>
+            <p><strong>响应示例</strong>:</p>
+            <pre>{
+    "code": 201,
+    "data": {
+        "id": 3,
+        "name": "王五",
+        "email": "wangwu@example.com"
+    }
+}</pre>
+            
+            <h3>支付接口</h3>
+            <h4>创建支付订单</h4>
+            <p><strong>POST /api/payments</strong></p>
+            <p><strong>请求参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>必填</th><th>说明</th></tr>
+                <tr><td>amount</td><td>float</td><td>是</td><td>支付金额，单位元，精确到分</td></tr>
+                <tr><td>currency</td><td>string</td><td>是</td><td>货币类型，如CNY</td></tr>
+                <tr><td>description</td><td>string</td><td>是</td><td>订单描述，最长128字符</td></tr>
+                <tr><td>merchant_id</td><td>string</td><td>是</td><td>商户ID</td></tr>
+                <tr><td>notify_url</td><td>string</td><td>是</td><td>支付结果通知URL</td></tr>
+                <tr><td>timestamp</td><td>int</td><td>是</td><td>请求时间戳，10位</td></tr>
+                <tr><td>sign</td><td>string</td><td>是</td><td>签名，见签名算法</td></tr>
+            </table>
+            
+            <p><strong>响应参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>说明</th></tr>
+                <tr><td>code</td><td>int</td><td>状态码，200表示成功</td></tr>
+                <tr><td>message</td><td>string</td><td>状态信息</td></tr>
+                <tr><td>data</td><td>object</td><td>响应数据</td></tr>
+                <tr><td>data.order_id</td><td>string</td><td>订单ID</td></tr>
+                <tr><td>data.payment_url</td><td>string</td><td>支付跳转URL</td></tr>
+            </table>
+            
+            <p><strong>错误代码</strong>:</p>
+            <table>
+                <tr><th>错误码</th><th>说明</th></tr>
+                <tr><td>400</td><td>参数错误</td></tr>
+                <tr><td>401</td><td>签名验证失败</td></tr>
+                <tr><td>403</td><td>商户权限不足</td></tr>
+                <tr><td>500</td><td>服务器内部错误</td></tr>
+            </table>
+            
+            <p><strong>响应示例</strong>:</p>
+            <pre>{
+    "code": 200,
+    "message": "success",
+    "data": {
+        "order_id": "PAY123456789",
+        "payment_url": "https://example.com/pay/PAY123456789"
+    }
+}</pre>
+            
+            <h4>支付回调接口</h4>
+            <p><strong>POST /api/payments/callback</strong></p>
+            <p><strong>请求参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>必填</th><th>说明</th></tr>
+                <tr><td>order_id</td><td>string</td><td>是</td><td>订单ID</td></tr>
+                <tr><td>status</td><td>string</td><td>是</td><td>支付状态(success/fail)</td></tr>
+                <tr><td>amount</td><td>float</td><td>是</td><td>实际支付金额</td></tr>
+                <tr><td>timestamp</td><td>int</td><td>是</td><td>时间戳，10位</td></tr>
+                <tr><td>sign</td><td>string</td><td>是</td><td>签名，见签名算法</td></tr>
+            </table>
+            
+            <p><strong>响应要求</strong>:</p>
+            <ul>
+                <li>必须返回HTTP状态码200</li>
+                <li>响应体必须为JSON格式</li>
+                <li>必须在3秒内响应</li>
+                <li>如果处理失败，最多重试3次，间隔10分钟</li>
+            </ul>
+            
+            <p><strong>响应示例</strong>:</p>
+            <pre>{
+    "code": 200,
+    "message": "success"
+}</pre>
+            
+            <h3>订单查询接口</h3>
+            <h4>获取订单列表</h4>
+            <p><strong>GET /api/orders</strong></p>
+            <p><strong>请求参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>必填</th><th>说明</th></tr>
+                <tr><td>merchant_id</td><td>string</td><td>是</td><td>商户ID</td></tr>
+                <tr><td>start_time</td><td>string</td><td>否</td><td>开始时间，格式：YYYY-MM-DD HH:MM:SS</td></tr>
+                <tr><td>end_time</td><td>string</td><td>否</td><td>结束时间，格式：YYYY-MM-DD HH:MM:SS</td></tr>
+                <tr><td>page</td><td>int</td><td>否</td><td>页码，默认1</td></tr>
+                <tr><td>limit</td><td>int</td><td>否</td><td>每页数量，默认20，最大100</td></tr>
+                <tr><td>timestamp</td><td>int</td><td>是</td><td>请求时间戳，10位</td></tr>
+                <tr><td>sign</td><td>string</td><td>是</td><td>签名，见签名算法</td></tr>
+            </table>
+            <p><strong>响应参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>说明</th></tr>
+                <tr><td>code</td><td>int</td><td>状态码，200表示成功</td></tr>
+                <tr><td>message</td><td>string</td><td>状态信息</td></tr>
+                <tr><td>data</td><td>object</td><td>响应数据</td></tr>
+                <tr><td>data.total</td><td>int</td><td>总记录数</td></tr>
+                <tr><td>data.list</td><td>array</td><td>结算记录列表</td></tr>
+            </table>
+            <p><strong>响应示例</strong>:</p>
+            <pre>{
+    "code": 200,
+    "message": "success",
+    "data": {
+        "total": 10,
+        "list": [
+            {
+                "settlement_id": "S20230101123456",
+                "amount": "1000.00",
+                "status": "success",
+                "create_time": "2023-01-01 12:34:56",
+                "finish_time": "2023-01-01 13:00:00"
+            },
+            {
+                "settlement_id": "S20230102123456",
+                "amount": "2000.00",
+                "status": "pending",
+                "create_time": "2023-01-02 12:34:56",
+                "finish_time": null
+            }
+        ]
+    }
+}</pre>
+        </section>
+
+        <section id="sdk-usage">
+            <h2>SDK 使用说明</h2>
+            <p>为了方便开发者快速集成我们的支付系统，我们提供了多种编程语言的SDK，目前支持PHP和Java。SDK封装了签名算法和HTTP请求，使开发者可以更加便捷地调用API接口。</p>
+            
+            <h3>PHP SDK</h3>
+            <h4>安装</h4>
+            <p>将SDK文件复制到您的项目中：</p>
+            <pre>
+# 下载SDK文件
+$ wget https://example.com/sdk/php/EpaySDK.php
+# 或者直接从项目目录复制
+$ cp /path/to/epay/sdk/php/EpaySDK.php /path/to/your/project/
+            </pre>
+            
+            <h4>初始化</h4>
+            <pre>
+<?php
+require_once 'EpaySDK.php';
+
+// 初始化SDK
+$merchant_id = 'your_merchant_id'; // 您的商户ID
+$merchant_key = 'your_merchant_key'; // 您的商户密钥
+$sdk = new EpaySDK($merchant_id, $merchant_key);
+
+// 如果需要自定义API地址
+// $sdk = new EpaySDK($merchant_id, $merchant_key, 'https://api.custom-domain.com');
+?>
+            </pre>
+            
+            <h4>创建支付订单</h4>
+            <pre>
+<?php
+// 创建支付订单
+$amount = 100.00; // 金额，单位元
+$currency = 'CNY'; // 货币类型
+$description = '测试商品'; // 订单描述
+$notify_url = 'https://your-domain.com/notify'; // 支付结果通知URL
+
+// 可选参数
+$extra = [
+    'return_url' => 'https://your-domain.com/return', // 支付完成后跳转URL
+    'out_trade_no' => 'ORDER' . time(), // 商户订单号
+];
+
+$result = $sdk->createPayment($amount, $currency, $description, $notify_url, $extra);
+
+if ($result['code'] == 200) {
+    // 支付订单创建成功
+    $order_id = $result['data']['order_id'];
+    $payment_url = $result['data']['payment_url'];
+    
+    // 跳转到支付页面
+    header('Location: ' . $payment_url);
+    exit;
+} else {
+    // 处理错误
+    echo '创建支付订单失败：' . $result['message'];
+}
+?>
+            </pre>
+            
+            <h4>查询订单</h4>
+            <pre>
+<?php
+// 查询订单
+$order_id = 'PAY123456789'; // 订单ID
+$result = $sdk->queryOrder($order_id);
+
+if ($result['code'] == 200) {
+    // 查询成功
+    $order_info = $result['data'];
+    echo '订单状态：' . $order_info['status'];
+} else {
+    // 处理错误
+    echo '查询订单失败：' . $result['message'];
+}
+?>
+            </pre>
+            
+            <h4>验证回调通知</h4>
+            <pre>
+<?php
+// 接收回调通知
+$params = $_POST; // 获取回调参数
+
+// 验证签名
+if ($sdk->verifyCallback($params)) {
+    // 签名验证通过，处理业务逻辑
+    $order_id = $params['order_id'];
+    $status = $params['status'];
+    
+    if ($status == 'success') {
+        // 支付成功，更新订单状态
+        // ...
+        echo 'success'; // 向支付系统返回成功接收
+    } else {
+        // 支付失败
+        // ...
+        echo 'success'; // 向支付系统返回成功接收
+    }
+} else {
+    // 签名验证失败
+    echo 'fail';
+}
+?>
+            </pre>
+            
+            <h4>申请结算</h4>
+            <pre>
+<?php
+// 申请结算
+$amount = 1000.00; // 结算金额
+$bank_name = '中国银行'; // 收款银行名称
+$bank_account = '6222020200123456789'; // 收款银行账号
+$account_name = '张三'; // 收款人姓名
+
+$result = $sdk->applySettlement($amount, $bank_name, $bank_account, $account_name);
+
+if ($result['code'] == 200) {
+    // 申请成功
+    $settlement_id = $result['data']['settlement_id'];
+    echo '结算申请成功，结算单号：' . $settlement_id;
+} else {
+    // 处理错误
+    echo '申请结算失败：' . $result['message'];
+}
+?>
+            </pre>
+            
+            <h3>Java SDK</h3>
+            <h4>安装</h4>
+            <p>将SDK文件添加到您的Java项目中：</p>
+            <pre>
+# 下载SDK文件
+$ wget https://example.com/sdk/java/EpaySDK.java
+# 或者直接从项目目录复制
+$ cp /path/to/epay/sdk/java/EpaySDK.java /path/to/your/project/src/com/epay/sdk/
+            </pre>
+            
+            <h4>初始化</h4>
+            <pre>
+import com.epay.sdk.EpaySDK;
+import java.util.HashMap;
+import java.util.Map;
+
+public class PaymentExample {
+    public static void main(String[] args) {
+        // 初始化SDK
+        String merchantId = "your_merchant_id"; // 您的商户ID
+        String merchantKey = "your_merchant_key"; // 您的商户密钥
+        EpaySDK sdk = new EpaySDK(merchantId, merchantKey);
+        
+        // 如果需要自定义API地址
+        // EpaySDK sdk = new EpaySDK(merchantId, merchantKey, "https://api.custom-domain.com");
+    }
+}
+            </pre>
+            
+            <h4>创建支付订单</h4>
+            <pre>
+try {
+    // 创建支付订单
+    double amount = 100.00; // 金额，单位元
+    String currency = "CNY"; // 货币类型
+    String description = "测试商品"; // 订单描述
+    String notifyUrl = "https://your-domain.com/notify"; // 支付结果通知URL
+    
+    // 可选参数
+    Map&lt;String, Object&gt; extra = new HashMap&lt;&gt;();
+    extra.put("return_url", "https://your-domain.com/return"); // 支付完成后跳转URL
+    extra.put("out_trade_no", "ORDER" + System.currentTimeMillis()); // 商户订单号
+    
+    Map&lt;String, Object&gt; result = sdk.createPayment(amount, currency, description, notifyUrl, extra);
+    
+    if (result.get("code").equals(200)) {
+        // 支付订单创建成功
+        Map&lt;String, Object&gt; data = (Map&lt;String, Object&gt;) result.get("data");
+        String orderId = (String) data.get("order_id");
+        String paymentUrl = (String) data.get("payment_url");
+        
+        System.out.println("订单创建成功，订单ID：" + orderId);
+        System.out.println("支付URL：" + paymentUrl);
+    } else {
+        // 处理错误
+        System.out.println("创建支付订单失败：" + result.get("message"));
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+}
+            </pre>
+            
+            <h4>查询订单</h4>
+            <pre>
+try {
+    // 查询订单
+    String orderId = "PAY123456789"; // 订单ID
+    Map&lt;String, Object&gt; result = sdk.queryOrder(orderId);
+    
+    if (result.get("code").equals(200)) {
+        // 查询成功
+        Map&lt;String, Object&gt; data = (Map&lt;String, Object&gt;) result.get("data");
+        System.out.println("订单状态：" + data.get("status"));
+    } else {
+        // 处理错误
+        System.out.println("查询订单失败：" + result.get("message"));
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+}
+            </pre>
+            
+            <h4>验证回调通知</h4>
+            <pre>
+// 在您的Web控制器中处理回调通知
+@RequestMapping("/notify")
+public String handleNotify(HttpServletRequest request) {
+    try {
+        // 获取回调参数
+        Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();
+        Map&lt;String, String[]&gt; requestParams = request.getParameterMap();
+        for (String key : requestParams.keySet()) {
+            String[] values = requestParams.get(key);
+            params.put(key, values[0]);
+        }
+        
+        // 验证签名
+        if (sdk.verifyCallback(params)) {
+            // 签名验证通过，处理业务逻辑
+            String orderId = (String) params.get("order_id");
+            String status = (String) params.get("status");
+            
+            if ("success".equals(status)) {
+                // 支付成功，更新订单状态
+                // ...
+                return "success"; // 向支付系统返回成功接收
+            } else {
+                // 支付失败
+                // ...
+                return "success"; // 向支付系统返回成功接收
+            }
+        } else {
+            // 签名验证失败
+            return "fail";
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        return "fail";
+    }
+}
+            </pre>
+            
+            <h4>申请结算</h4>
+            <pre>
+try {
+    // 申请结算
+    double amount = 1000.00; // 结算金额
+    String bankName = "中国银行"; // 收款银行名称
+    String bankAccount = "6222020200123456789"; // 收款银行账号
+    String accountName = "张三"; // 收款人姓名
+    
+    Map&lt;String, Object&gt; result = sdk.applySettlement(amount, bankName, bankAccount, accountName);
+    
+    if (result.get("code").equals(200)) {
+        // 申请成功
+        Map&lt;String, Object&gt; data = (Map&lt;String, Object&gt;) result.get("data");
+        String settlementId = (String) data.get("settlement_id");
+        System.out.println("结算申请成功，结算单号：" + settlementId);
+    } else {
+        // 处理错误
+        System.out.println("申请结算失败：" + result.get("message"));
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+}
+            </pre>
+            
+            <h3>SDK 注意事项</h3>
+            <ul>
+                <li>请妥善保管您的商户密钥，不要泄露给第三方</li>
+                <li>所有API请求必须通过HTTPS协议传输，确保数据安全</li>
+                <li>回调通知处理完成后，必须返回字符串"success"，否则系统会重复发送通知</li>
+                <li>建议在生产环境中使用异常处理机制，确保程序的健壮性</li>
+                <li>如有任何问题，请联系技术支持</li>
+            </ul>
+        </section>
+                <tr><td>limit</td><td>int</td><td>否</td><td>每页数量，默认20，最大100</td></tr>
+                <tr><td>status</td><td>string</td><td>否</td><td>订单状态：all(全部)、success(支付成功)、fail(支付失败)、pending(待支付)</td></tr>
+                <tr><td>timestamp</td><td>int</td><td>是</td><td>请求时间戳，10位</td></tr>
+                <tr><td>sign</td><td>string</td><td>是</td><td>签名，见签名算法</td></tr>
+            </table>
+            <p><strong>响应参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>说明</th></tr>
+                <tr><td>code</td><td>int</td><td>状态码，200表示成功</td></tr>
+                <tr><td>message</td><td>string</td><td>状态信息</td></tr>
+                <tr><td>data</td><td>object</td><td>响应数据</td></tr>
+                <tr><td>data.total</td><td>int</td><td>总订单数</td></tr>
+                <tr><td>data.list</td><td>array</td><td>订单列表</td></tr>
+            </table>
+            <p><strong>响应示例</strong>:</p>
+            <pre>{
+    "code": 200,
+    "message": "success",
+    "data": {
+        "total": 100,
+        "list": [
+            {
+                "order_id": "20230101123456",
+                "out_trade_no": "MERCHANT20230101",
+                "amount": "100.00",
+                "status": "success",
+                "pay_time": "2023-01-01 12:34:56",
+                "create_time": "2023-01-01 12:30:00"
+            },
+            {
+                "order_id": "20230101123457",
+                "out_trade_no": "MERCHANT20230102",
+                "amount": "200.00",
+                "status": "pending",
+                "pay_time": null,
+                "create_time": "2023-01-01 12:35:00"
+            }
+        ]
+    }
+}</pre>
+            
+            <h3>商户管理接口</h3>
+            <h4>获取商户信息</h4>
+            <p><strong>GET /api/merchants/{merchant_id}</strong></p>
+            <p><strong>请求参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>必填</th><th>说明</th></tr>
+                <tr><td>merchant_id</td><td>string</td><td>是</td><td>商户ID</td></tr>
+                <tr><td>timestamp</td><td>int</td><td>是</td><td>请求时间戳，10位</td></tr>
+                <tr><td>sign</td><td>string</td><td>是</td><td>签名，见签名算法</td></tr>
+            </table>
+            <p><strong>响应参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>说明</th></tr>
+                <tr><td>code</td><td>int</td><td>状态码，200表示成功</td></tr>
+                <tr><td>message</td><td>string</td><td>状态信息</td></tr>
+                <tr><td>data</td><td>object</td><td>商户信息</td></tr>
+            </table>
+            <p><strong>响应示例</strong>:</p>
+            <pre>{
+    "code": 200,
+    "message": "success",
+    "data": {
+        "id": "M123456",
+        "name": "测试商户",
+        "status": "active",
+        "create_time": "2023-01-01 12:00:00",
+        "balance": "1000.00",
+        "fee_rate": "0.006"
+    }
+}</pre>
+            
+            <h4>更新商户信息</h4>
+            <p><strong>PUT /api/merchants/{merchant_id}</strong></p>
+            <p><strong>请求参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>必填</th><th>说明</th></tr>
+                <tr><td>merchant_id</td><td>string</td><td>是</td><td>商户ID</td></tr>
+                <tr><td>name</td><td>string</td><td>否</td><td>商户名称</td></tr>
+                <tr><td>contact_name</td><td>string</td><td>否</td><td>联系人姓名</td></tr>
+                <tr><td>contact_phone</td><td>string</td><td>否</td><td>联系人电话</td></tr>
+                <tr><td>contact_email</td><td>string</td><td>否</td><td>联系人邮箱</td></tr>
+                <tr><td>status</td><td>string</td><td>否</td><td>商户状态：active(启用)、inactive(禁用)</td></tr>
+                <tr><td>timestamp</td><td>int</td><td>是</td><td>请求时间戳，10位</td></tr>
+                <tr><td>sign</td><td>string</td><td>是</td><td>签名，见签名算法</td></tr>
+            </table>
+            <p><strong>响应参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>说明</th></tr>
+                <tr><td>code</td><td>int</td><td>状态码，200表示成功</td></tr>
+                <tr><td>message</td><td>string</td><td>状态信息</td></tr>
+            </table>
+            <p><strong>响应示例</strong>:</p>
+            <pre>{
+    "code": 200,
+    "message": "更新成功"
+}</pre>
+            
+            <h4>商户余额查询</h4>
+            <p><strong>GET /api/merchants/{merchant_id}/balance</strong></p>
+            <p><strong>请求参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>必填</th><th>说明</th></tr>
+                <tr><td>merchant_id</td><td>string</td><td>是</td><td>商户ID</td></tr>
+                <tr><td>timestamp</td><td>int</td><td>是</td><td>请求时间戳，10位</td></tr>
+                <tr><td>sign</td><td>string</td><td>是</td><td>签名，见签名算法</td></tr>
+            </table>
+            <p><strong>响应参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>说明</th></tr>
+                <tr><td>code</td><td>int</td><td>状态码，200表示成功</td></tr>
+                <tr><td>message</td><td>string</td><td>状态信息</td></tr>
+                <tr><td>data</td><td>object</td><td>余额信息</td></tr>
+            </table>
+            <p><strong>响应示例</strong>:</p>
+            <pre>{
+    "code": 200,
+    "message": "success",
+    "data": {
+        "balance": "1000.00",
+        "frozen": "0.00",
+        "available": "1000.00"
+    }
+}</pre>
+        </section>
+
+        <section id="settlement-api">
+            <h2>结算 API</h2>
+            <p>商户可以通过结算API申请提现、查询结算记录等操作。</p>
+            
+            <h3>申请结算</h3>
+            <p><strong>POST /api/settlements</strong></p>
+            <p><strong>请求参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>必填</th><th>说明</th></tr>
+                <tr><td>merchant_id</td><td>string</td><td>是</td><td>商户ID</td></tr>
+                <tr><td>amount</td><td>float</td><td>是</td><td>结算金额，单位元，精确到分</td></tr>
+                <tr><td>bank_name</td><td>string</td><td>是</td><td>收款银行名称</td></tr>
+                <tr><td>bank_account</td><td>string</td><td>是</td><td>收款银行账号</td></tr>
+                <tr><td>account_name</td><td>string</td><td>是</td><td>收款人姓名</td></tr>
+                <tr><td>timestamp</td><td>int</td><td>是</td><td>请求时间戳，10位</td></tr>
+                <tr><td>sign</td><td>string</td><td>是</td><td>签名，见签名算法</td></tr>
+            </table>
+            <p><strong>响应参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>说明</th></tr>
+                <tr><td>code</td><td>int</td><td>状态码，200表示成功</td></tr>
+                <tr><td>message</td><td>string</td><td>状态信息</td></tr>
+                <tr><td>data</td><td>object</td><td>结算信息</td></tr>
+                <tr><td>data.settlement_id</td><td>string</td><td>结算单号</td></tr>
+                <tr><td>data.status</td><td>string</td><td>结算状态：pending(处理中)、success(成功)、fail(失败)</td></tr>
+            </table>
+            <p><strong>响应示例</strong>:</p>
+            <pre>{
+    "code": 200,
+    "message": "success",
+    "data": {
+        "settlement_id": "S20230101123456",
+        "status": "pending"
+    }
+}</pre>
+            
+            <h3>查询结算记录</h3>
+            <p><strong>GET /api/settlements</strong></p>
+            <p><strong>请求参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>必填</th><th>说明</th></tr>
+                <tr><td>merchant_id</td><td>string</td><td>是</td><td>商户ID</td></tr>
+                <tr><td>start_time</td><td>string</td><td>否</td><td>开始时间，格式：YYYY-MM-DD HH:MM:SS</td></tr>
+                <tr><td>end_time</td><td>string</td><td>否</td><td>结束时间，格式：YYYY-MM-DD HH:MM:SS</td></tr>
+                <tr><td>page</td><td>int</td><td>否</td><td>页码，默认1</td></tr>
+                <tr><td>limit</td><td>int</td><td>否</td><td>每页数量，默认20，最大100</td></tr>
+                <tr><td>timestamp</td><td>int</td><td>是</td><td>请求时间戳，10位</td></tr>
+                <tr><td>sign</td><td>string</td><td>是</td><td>签名，见签名算法</td></tr>
+            </table>
+            <p><strong>响应参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>说明</th></tr>
+                <tr><td>code</td><td>int</td><td>状态码，200表示成功</td></tr>
+                <tr><td>message</td><td>string</td><td>状态信息</td></tr>
+                <tr><td>data</td><td>object</td><td>响应数据</td></tr>
+                <tr><td>data.total</td><td>int</td><td>总记录数</td></tr>
+                <tr><td>data.list</td><td>array</td><td>结算记录列表</td></tr>
+            </table>
+            <p><strong>响应示例</strong>:</p>
+            <pre>{
+    "code": 200,
+    "message": "success",
+    "data": {
+        "total": 10,
+        "list": [
+            {
+                "settlement_id": "S20230101123456",
+                "amount": "1000.00",
+                "status": "success",
+                "create_time": "2023-01-01 12:34:56",
+                "finish_time": "2023-01-01 13:00:00"
+            },
+            {
+                "settlement_id": "S20230102123456",
+                "amount": "2000.00",
+                "status": "pending",
+                "create_time": "2023-01-02 12:34:56",
+                "finish_time": null
+            }
+        ]
+    }
+}</pre>
+        </section>
+
+        <section id="sdk-usage">
+            <h2>SDK 使用说明</h2>
+            <p>为了方便开发者快速集成我们的支付系统，我们提供了多种编程语言的SDK，目前支持PHP和Java。SDK封装了签名算法和HTTP请求，使开发者可以更加便捷地调用API接口。</p>
+            
+            <h3>PHP SDK</h3>
+            <h4>安装</h4>
+            <p>将SDK文件复制到您的项目中：</p>
+            <pre>
+# 下载SDK文件
+$ wget https://example.com/sdk/php/EpaySDK.php
+# 或者直接从项目目录复制
+$ cp /path/to/epay/sdk/php/EpaySDK.php /path/to/your/project/
+            </pre>
+            
+            <h4>初始化</h4>
+            <pre>
+<?php
+require_once 'EpaySDK.php';
+
+// 初始化SDK
+$merchant_id = 'your_merchant_id'; // 您的商户ID
+$merchant_key = 'your_merchant_key'; // 您的商户密钥
+$sdk = new EpaySDK($merchant_id, $merchant_key);
+
+// 如果需要自定义API地址
+// $sdk = new EpaySDK($merchant_id, $merchant_key, 'https://api.custom-domain.com');
+?>
+            </pre>
+            
+            <h4>创建支付订单</h4>
+            <pre>
+<?php
+// 创建支付订单
+$amount = 100.00; // 金额，单位元
+$currency = 'CNY'; // 货币类型
+$description = '测试商品'; // 订单描述
+$notify_url = 'https://your-domain.com/notify'; // 支付结果通知URL
+
+// 可选参数
+$extra = [
+    'return_url' => 'https://your-domain.com/return', // 支付完成后跳转URL
+    'out_trade_no' => 'ORDER' . time(), // 商户订单号
+];
+
+$result = $sdk->createPayment($amount, $currency, $description, $notify_url, $extra);
+
+if ($result['code'] == 200) {
+    // 支付订单创建成功
+    $order_id = $result['data']['order_id'];
+    $payment_url = $result['data']['payment_url'];
+    
+    // 跳转到支付页面
+    header('Location: ' . $payment_url);
+    exit;
+} else {
+    // 处理错误
+    echo '创建支付订单失败：' . $result['message'];
+}
+?>
+            </pre>
+            
+            <h4>查询订单</h4>
+            <pre>
+<?php
+// 查询订单
+$order_id = 'PAY123456789'; // 订单ID
+$result = $sdk->queryOrder($order_id);
+
+if ($result['code'] == 200) {
+    // 查询成功
+    $order_info = $result['data'];
+    echo '订单状态：' . $order_info['status'];
+} else {
+    // 处理错误
+    echo '查询订单失败：' . $result['message'];
+}
+?>
+            </pre>
+            
+            <h4>验证回调通知</h4>
+            <pre>
+<?php
+// 接收回调通知
+$params = $_POST; // 获取回调参数
+
+// 验证签名
+if ($sdk->verifyCallback($params)) {
+    // 签名验证通过，处理业务逻辑
+    $order_id = $params['order_id'];
+    $status = $params['status'];
+    
+    if ($status == 'success') {
+        // 支付成功，更新订单状态
+        // ...
+        echo 'success'; // 向支付系统返回成功接收
+    } else {
+        // 支付失败
+        // ...
+        echo 'success'; // 向支付系统返回成功接收
+    }
+} else {
+    // 签名验证失败
+    echo 'fail';
+}
+?>
+            </pre>
+            
+            <h4>申请结算</h4>
+            <pre>
+<?php
+// 申请结算
+$amount = 1000.00; // 结算金额
+$bank_name = '中国银行'; // 收款银行名称
+$bank_account = '6222020200123456789'; // 收款银行账号
+$account_name = '张三'; // 收款人姓名
+
+$result = $sdk->applySettlement($amount, $bank_name, $bank_account, $account_name);
+
+if ($result['code'] == 200) {
+    // 申请成功
+    $settlement_id = $result['data']['settlement_id'];
+    echo '结算申请成功，结算单号：' . $settlement_id;
+} else {
+    // 处理错误
+    echo '申请结算失败：' . $result['message'];
+}
+?>
+            </pre>
+            
+            <h3>Java SDK</h3>
+            <h4>安装</h4>
+            <p>将SDK文件添加到您的Java项目中：</p>
+            <pre>
+# 下载SDK文件
+$ wget https://example.com/sdk/java/EpaySDK.java
+# 或者直接从项目目录复制
+$ cp /path/to/epay/sdk/java/EpaySDK.java /path/to/your/project/src/com/epay/sdk/
+            </pre>
+            
+            <h4>初始化</h4>
+            <pre>
+import com.epay.sdk.EpaySDK;
+import java.util.HashMap;
+import java.util.Map;
+
+public class PaymentExample {
+    public static void main(String[] args) {
+        // 初始化SDK
+        String merchantId = "your_merchant_id"; // 您的商户ID
+        String merchantKey = "your_merchant_key"; // 您的商户密钥
+        EpaySDK sdk = new EpaySDK(merchantId, merchantKey);
+        
+        // 如果需要自定义API地址
+        // EpaySDK sdk = new EpaySDK(merchantId, merchantKey, "https://api.custom-domain.com");
+    }
+}
+            </pre>
+            
+            <h4>创建支付订单</h4>
+            <pre>
+try {
+    // 创建支付订单
+    double amount = 100.00; // 金额，单位元
+    String currency = "CNY"; // 货币类型
+    String description = "测试商品"; // 订单描述
+    String notifyUrl = "https://your-domain.com/notify"; // 支付结果通知URL
+    
+    // 可选参数
+    Map&lt;String, Object&gt; extra = new HashMap&lt;&gt;();
+    extra.put("return_url", "https://your-domain.com/return"); // 支付完成后跳转URL
+    extra.put("out_trade_no", "ORDER" + System.currentTimeMillis()); // 商户订单号
+    
+    Map&lt;String, Object&gt; result = sdk.createPayment(amount, currency, description, notifyUrl, extra);
+    
+    if (result.get("code").equals(200)) {
+        // 支付订单创建成功
+        Map&lt;String, Object&gt; data = (Map&lt;String, Object&gt;) result.get("data");
+        String orderId = (String) data.get("order_id");
+        String paymentUrl = (String) data.get("payment_url");
+        
+        System.out.println("订单创建成功，订单ID：" + orderId);
+        System.out.println("支付URL：" + paymentUrl);
+    } else {
+        // 处理错误
+        System.out.println("创建支付订单失败：" + result.get("message"));
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+}
+            </pre>
+            
+            <h4>查询订单</h4>
+            <pre>
+try {
+    // 查询订单
+    String orderId = "PAY123456789"; // 订单ID
+    Map&lt;String, Object&gt; result = sdk.queryOrder(orderId);
+    
+    if (result.get("code").equals(200)) {
+        // 查询成功
+        Map&lt;String, Object&gt; data = (Map&lt;String, Object&gt;) result.get("data");
+        System.out.println("订单状态：" + data.get("status"));
+    } else {
+        // 处理错误
+        System.out.println("查询订单失败：" + result.get("message"));
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+}
+            </pre>
+            
+            <h4>验证回调通知</h4>
+            <pre>
+// 在您的Web控制器中处理回调通知
+@RequestMapping("/notify")
+public String handleNotify(HttpServletRequest request) {
+    try {
+        // 获取回调参数
+        Map&lt;String, Object&gt; params = new HashMap&lt;&gt;();
+        Map&lt;String, String[]&gt; requestParams = request.getParameterMap();
+        for (String key : requestParams.keySet()) {
+            String[] values = requestParams.get(key);
+            params.put(key, values[0]);
+        }
+        
+        // 验证签名
+        if (sdk.verifyCallback(params)) {
+            // 签名验证通过，处理业务逻辑
+            String orderId = (String) params.get("order_id");
+            String status = (String) params.get("status");
+            
+            if ("success".equals(status)) {
+                // 支付成功，更新订单状态
+                // ...
+                return "success"; // 向支付系统返回成功接收
+            } else {
+                // 支付失败
+                // ...
+                return "success"; // 向支付系统返回成功接收
+            }
+        } else {
+            // 签名验证失败
+            return "fail";
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        return "fail";
+    }
+}
+            </pre>
+            
+            <h4>申请结算</h4>
+            <pre>
+try {
+    // 申请结算
+    double amount = 1000.00; // 结算金额
+    String bankName = "中国银行"; // 收款银行名称
+    String bankAccount = "6222020200123456789"; // 收款银行账号
+    String accountName = "张三"; // 收款人姓名
+    
+    Map&lt;String, Object&gt; result = sdk.applySettlement(amount, bankName, bankAccount, accountName);
+    
+    if (result.get("code").equals(200)) {
+        // 申请成功
+        Map&lt;String, Object&gt; data = (Map&lt;String, Object&gt;) result.get("data");
+        String settlementId = (String) data.get("settlement_id");
+        System.out.println("结算申请成功，结算单号：" + settlementId);
+    } else {
+        // 处理错误
+        System.out.println("申请结算失败：" + result.get("message"));
+    }
+} catch (Exception e) {
+    e.printStackTrace();
+}
+            </pre>
+            
+            <h3>SDK 注意事项</h3>
+            <ul>
+                <li>请妥善保管您的商户密钥，不要泄露给第三方</li>
+                <li>所有API请求必须通过HTTPS协议传输，确保数据安全</li>
+                <li>回调通知处理完成后，必须返回字符串"success"，否则系统会重复发送通知</li>
+                <li>建议在生产环境中使用异常处理机制，确保程序的健壮性</li>
+                <li>如有任何问题，请联系技术支持</li>
+            </ul>
+        </section>
+                <tr><td>limit</td><td>int</td><td>否</td><td>每页数量，默认20，最大100</td></tr>
+                <tr><td>status</td><td>string</td><td>否</td><td>结算状态：all(全部)、pending(处理中)、success(成功)、fail(失败)</td></tr>
+                <tr><td>timestamp</td><td>int</td><td>是</td><td>请求时间戳，10位</td></tr>
+                <tr><td>sign</td><td>string</td><td>是</td><td>签名，见签名算法</td></tr>
+            </table>
+            <p><strong>响应参数</strong>:</p>
+            <table>
+                <tr><th>参数名</th><th>类型</th><th>说明</th></tr>
+                <tr><td>code</td><td>int</td><td>状态码，200表示成功</td></tr>
+                <tr><td>message</td><td>string</td><td>状态信息</td></tr>
+                <tr><td>data</td><td>object</td><td>响应数据</td></tr>
+                <tr><td>data.total</td><td>int</td><td>总记录数</td></tr>
+                <tr><td>data.list</td><td>array</td><td>结算记录列表</td></tr>
+            </table>
+            <p><strong>响应示例</strong>:</p>
+            <pre>{
+    "code": 200,
+    "message": "success",
+    "data": {
+        "total": 10,
+        "list": [
+            {
+                "settlement_id": "S20230101123456",
+                "amount": "1000.00",
+                "status": "success",
+                "create_time": "2023-01-01 12:30:00",
+                "finish_time": "2023-01-01 14:30:00"
+            },
+            {
+                "settlement_id": "S20230102123456",
+                "amount": "2000.00",
+                "status": "pending",
+                "create_time": "2023-01-02 12:30:00",
+                "finish_time": null
+            }
+        ]
+    }
+}</pre>
+        </section>
+        
+        <section id="sdk-usage">
+            <h2>SDK 使用说明</h2>
+            <p>为了方便开发者快速接入我们的支付系统，我们提供了多种语言的SDK。</p>
+            
+            <h3>SDK 下载</h3>
+            <ul>
+                <li><a href="#">PHP SDK</a> - 适用于PHP 7.0及以上版本</li>
+                <li><a href="#">Java SDK</a> - 适用于Java 8及以上版本</li>
+                <li><a href="#">Node.js SDK</a> - 适用于Node.js 10及以上版本</li>
+                <li><a href="#">Python SDK</a> - 适用于Python 3.6及以上版本</li>
+                <li><a href="#">.NET SDK</a> - 适用于.NET Framework 4.5及以上版本</li>
+            </ul>
+            
+            <h3>PHP SDK 使用示例</h3>
+            <pre>
+// 安装SDK
+composer require epay/php-sdk
+
+// 初始化SDK
+$config = [
+    'merchant_id' => '1001',
+    'api_key' => 'your_api_key',
+    'api_url' => 'https://api.example.com'
+];
+$epay = new \Epay\Client($config);
+
+// 创建支付订单
+$params = [
+    'out_trade_no' => 'ORDER' . time(),
+    'amount' => '100.00',
+    'description' => '测试商品',
+    'notify_url' => 'https://your-domain.com/notify',
+    'return_url' => 'https://your-domain.com/return'
+];
+$result = $epay->payment->create($params);
+
+// 处理结果
+if ($result['code'] == 200) {
+    // 获取支付URL或二维码
+    $paymentUrl = $result['data']['payment_url'];
+    // 跳转到支付页面或显示二维码
+} else {
+    // 处理错误
+    echo $result['message'];
+}
+            </pre>
+            
+            <h3>Java SDK 使用示例</h3>
+            <pre>
+// 添加依赖 (Maven)
+&lt;dependency&gt;
+    &lt;groupId&gt;com.epay&lt;/groupId&gt;
+    &lt;artifactId&gt;epay-java-sdk&lt;/artifactId&gt;
+    &lt;version&gt;1.0.0&lt;/version&gt;
+&lt;/dependency&gt;
+
+// 初始化SDK
+EpayClient client = new EpayClient.Builder()
+    .merchantId("1001")
+    .apiKey("your_api_key")
+    .apiUrl("https://api.example.com")
+    .build();
+
+// 创建支付订单
+PaymentCreateRequest request = new PaymentCreateRequest();
+request.setOutTradeNo("ORDER" + System.currentTimeMillis());
+request.setAmount("100.00");
+request.setDescription("测试商品");
+request.setNotifyUrl("https://your-domain.com/notify");
+request.setReturnUrl("https://your-domain.com/return");
+
+PaymentCreateResponse response = client.payment().create(request);
+
+// 处理结果
+if (response.getCode() == 200) {
+    // 获取支付URL或二维码
+    String paymentUrl = response.getData().getPaymentUrl();
+    // 跳转到支付页面或显示二维码
+} else {
+    // 处理错误
+    System.out.println(response.getMessage());
+}
+            </pre>
+        </section>
+        
+        <section id="contribution-guidelines">
+            <h2>贡献指南</h2>
+            <p>如果您希望为本项目做出贡献，请遵循以下指南：</p>
+            
+            <h3>代码风格和规范</h3>
+            <ul>
+                <li>遵循PSR-4自动加载规范</li>
+                <li>遵循PSR-12编码风格规范</li>
+                <li>所有PHP文件必须使用UTF-8无BOM编码</li>
+                <li>类名使用大驼峰命名法（StudlyCaps）</li>
+                <li>方法名使用小驼峰命名法（camelCase）</li>
+                <li>常量全部使用大写字母，单词间用下划线分隔</li>
+                <li>所有新增代码必须包含适当的注释</li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; <?php echo date('Y'); ?> 项目名称. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
